@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang= "en">
+<html>
+    <head>      
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>register</title>
+    </head>
+    <body>
+        <hi>Register</hi>
+        <form id="myForm" autocomplete="off">
+            <label for = "userNameInput">Username</label>
+            <input type = "text" name= "userNameInput" id= "userNameInput">
+            <label for = "emailInput">Email</label>
+            <input type = "text" name= "emailInput" id= "emailInput">
+            <label for = "passWordInput">Password</label>
+            <input type = "text" name= "passWordInput" id= "passWordInput">
+            <input type="submit" value="Submit">
+        </form>
+        <p id ="Status"></p>
+        <style>
+            body{
+                margin:0px;
+            }
+            #loginButton
+            {
+                margin: auto;
+                padding: 10px;
+                text-align: center;
+                
+            }
+        </style>
+        <script>
+            const myForm = document.getElementById('myForm');
+            const statusP = document.getElementById('Status');
+
+            myForm.addEventListener('submit', (e) =>
+            {
+               e.preventDefault();
+                
+                console.log('post  request');
+                let registerData = 
+                {
+                    method: 'POST',
+                    headers : {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify( {
+                       "name": document.getElementById('userNameInput').value,
+                        "email": document.getElementById('emailInput').value,
+                        "password": document.getElementById('passWordInput').value
+                    })
+                }
+                console.log(JSON.stringify(registerData));
+                fetch('/register', registerData)
+                .then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                     //id is passed, redirect user based on id?
+                    message = data[0];
+                    switch(message)
+                    {
+                        case "Email already exist":
+                            statusP.innerHTML = message;
+                            return;
+                        
+                    }
+                    statusP.innerHTML = `${JSON.parse(registerData.body).name} has been registered!`;
+                    //open up the user's account stuff
+                }).catch((error) =>
+                {
+                    console.log(error);
+                })
+               
+                    
+            })
+           
+        </script>
+    </body>
+</html>

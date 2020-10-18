@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang= "en">
+<html>
+    <head>      
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>homepage</title>
+    </head>
+    <body>
+        <ul id = "inputs">
+            <ol>
+                    <button id = "login" onclick="logon()">Login</button>
+            </ol>
+            <ol>
+                    <button id = "login" onclick="register()">Register</button>
+            </ol>
+        </ul>
+        
+        <style>
+            body{
+                margin:0px;
+            }
+            #login
+            {
+                margin: auto;
+                padding: 10px;
+                text-align: center;
+                width:200px;
+                
+            }
+        </style>
+        <script>
+            let button = document.getElementById('inputs');
+            let width = 200;
+            
+            button.style.width = width + "px";
+            button.style.position = "absolute";
+            button.style.left = innerWidth/2 - width/2 + "px";
+            button.style.top = innerHeight/2 + "px";
+            function logon()
+            {
+                window.location.href = window.location.href + 'login';
+            }
+
+            function register() 
+            {
+                window.location.href = window.location.href + 'register';
+            }
+            
+            
+            
+            //talk to api 
+            // function logon()
+            // {
+            //     fetch('/uwu', {method: 'GET'})
+            //         .then(function(response) {
+            //         if(response.ok) return response.json();
+            //         throw new Error('Request failed');
+            //         })
+            //         .then(function(data) {
+            //         if(data)
+            //         {
+            //            window.alert(data.uwu)
+            //         }
+            //         else
+            //         {
+            //             window.alert("what");
+            //         }
+            //         }).catch()
+            //         {
+            //             console.log('error');
+            //         }
+            // }
+        </script>
+    </body>
+</html>

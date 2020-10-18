@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang= "en">
+<html>
+    <head>      
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>login</title>
+    </head>
+    <body>
+            <hi>Login</hi>
+            <form id="myForm" autocomplete="off">
+                <label for = "emailInput">Email: </label>
+                <input type = "text" name= "emailInput" id= "emailInput">
+                <label for = "passWordInput">Password: </label>
+                <input type = "text" name= "passWordInput" id= "passWordInput">
+                <input type="submit" value="Submit">
+            </form>
+            <p id ="Status"></p>
+        <style>
+            body{
+                margin:0px;
+            }
+            #loginButton
+            {
+                margin: auto;
+                padding: 10px;
+                text-align: center;
+            }
+        </style>
+        <script>
+            const myForm = document.getElementById('myForm');
+            const statusP = document.getElementById('Status');
+
+            myForm.addEventListener('submit', (e) =>
+            {
+               e.preventDefault();
+                
+                console.log('Login attempt');
+                let registerData = 
+                {
+                    method: 'POST',
+                    headers : {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify( {
+                        "email": document.getElementById('emailInput').value,
+                        "password": document.getElementById('passWordInput').value
+                   })
+                }
+                console.log(JSON.stringify(registerData));
+                fetch('/login', registerData)
+                .then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    console.log(JSON.stringify(data));
+                    // switch(data[0])
+                    // {
+                    //     case "\"email\" length must be at least 6 characters long" :
+                    //         statusP.innerHTML = "Please give a valid email.";
+                    //         return;
+                    //     case "\"email\" must be a valid email" :
+                    //         statusP.innerHTML = "Please give a valid email.";
+                    //         return;
+                    //     case "\"password\" length must be at least 6 characters long":
+                    //         statusP.innerHTML = "Please give a valid password";
+                    //         return;
+                    //     case "Email or password is wrong":
+                    //         statusP.innerHTML = "Email or password is wrong";
+                    //         return
+                    // }
+                    
+                    //open up the user's account stuff
+                    //window.location.href = `http://localhost:8000/homepage?Content-Type=application/json&auth-token=${data[0]}`;
+                    getUserId(document.getElementById('emailInput').value, data[0]);
+                }).catch((error) =>
+                {
+                    console.log(error);
+                })      
+            })
+
+            function getUserId(email, token)
+            {
+                fetch('/getUserWithEmail', 
+                {
+                    method: 'POST',
+                    headers : {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify( {
+                        "email": email
+                   })
+                }).then((response) =>
+                {
+                    return response.json();
+                }).then((data) =>
+                {
+                    window.location.href = `http://localhost:8000/getUserInfo?Content-Type=application/json&authToken=${token}&_id=${data._id}`;
+                }).catch((error) =>
+                {
+                    console.log(error);
+                })
+            }
+        </script>
+    </body>
+</html>
